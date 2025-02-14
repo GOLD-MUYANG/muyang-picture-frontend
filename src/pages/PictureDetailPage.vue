@@ -83,12 +83,12 @@
 <script setup lang="ts">
 
 import {computed, onMounted, ref} from "vue";
-import {deletePictureUsingPost, getPictureVoByIdUsingGet} from "@/api/fileController.ts";
 import {message} from "ant-design-vue";
 import {downloadImage, formatSize} from "../utils";
 import {useLoginUserStore} from "@/stores/useLoginUserStore.ts";
 import router from "@/router";
 import {saveAs} from "file-saver";
+import {deletePictureUsingPost, getPictureVoByIdUsingGet} from "@/api/pictureController.ts";
 
 const props = defineProps<{
   id: string | number

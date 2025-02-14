@@ -74,9 +74,9 @@
 <script setup lang="ts">
 // 数据
 import {computed, onMounted, reactive, ref} from "vue";
-import {listPictureTagCategoryUsingGet, listPictureVoByPageUsingPost} from "@/api/fileController.ts";
 import {message} from "ant-design-vue";
 import {useRouter} from "vue-router";
+import {listPictureTagCategoryUsingGet, listPictureVoByPageUsingPost} from "@/api/pictureController.ts";
 
 const dataList = ref([])
 const total = ref(0)

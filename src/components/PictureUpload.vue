@@ -28,6 +28,7 @@ interface Props {
   onSuccess?: (newPicture: API.PictureVO) => void
 }
 
+
 const props = defineProps<Props>()
 
 /**
@@ -37,6 +38,7 @@ const props = defineProps<Props>()
 const handleUpload = async ({ file }: any) => {
   loading.value = true
   try {
+// 上传时传递 spaceId
     const params: API.PictureUploadRequest = props.picture ? { id: props.picture.id } : {}
     params.spaceId = props.spaceId;
     const res = await uploadPictureUsingPost(params, {}, file)

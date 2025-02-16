@@ -4,10 +4,7 @@
       <!-- 图片展示区 -->
       <a-col :sm="24" :md="16" :xl="18">
         <a-card title="图片预览">
-          <a-image
-            style="max-height: 600px; object-fit: contain"
-            :src="picture.url"
-          />
+          <a-image style="max-height: 600px; object-fit: contain" :src="picture.url" />
         </a-card>
       </a-col>
       <!-- 图片信息区 -->
@@ -49,6 +46,19 @@
             <a-descriptions-item label="大小">
               {{ formatSize(picture.picSize) }}
             </a-descriptions-item>
+            <a-descriptions-item label="主色调">
+              <a-space>
+                {{ picture.picColor ?? '-' }}
+                <div
+                  v-if="picture.picColor"
+                  :style="{
+                    backgroundColor: toHexColor(picture.picColor),
+                    width: '16px',
+                    height: '16px',
+                  }"
+                />
+              </a-space>
+            </a-descriptions-item>
           </a-descriptions>
 
           <a-space wrap>
@@ -70,25 +80,22 @@
                 <DownloadOutlined />
               </template>
             </a-button>
-
           </a-space>
-
         </a-card>
       </a-col>
     </a-row>
-
   </div>
 </template>
 
 <script setup lang="ts">
-
-import {computed, onMounted, ref} from "vue";
-import {message} from "ant-design-vue";
-import {downloadImage, formatSize} from "../utils";
-import {useLoginUserStore} from "@/stores/useLoginUserStore.ts";
-import router from "@/router";
-import {saveAs} from "file-saver";
-import {deletePictureUsingPost, getPictureVoByIdUsingGet} from "@/api/pictureController.ts";
+import { computed, onMounted, ref } from 'vue'
+import { message } from 'ant-design-vue'
+import { downloadImage, formatSize } from '../utils'
+import { useLoginUserStore } from '@/stores/useLoginUserStore.ts'
+import router from '@/router'
+import { saveAs } from 'file-saver'
+import { deletePictureUsingPost, getPictureVoByIdUsingGet } from '@/api/pictureController.ts'
+import {toHexColor} from "@/constants/picture.ts";
 
 const props = defineProps<{
   id: string | number
@@ -112,11 +119,10 @@ const fetchPictureDetail = async () => {
   }
 }
 
-
 const loginUserStore = useLoginUserStore()
 // 是否具有编辑权限
 const canEdit = computed(() => {
-  const loginUser = loginUserStore.loginUser;
+  const loginUser = loginUserStore.loginUser
   // 未登录不可编辑
   if (!loginUser.id) {
     return false
@@ -132,8 +138,8 @@ const doEdit = () => {
     path: '/add_picture',
     query: {
       id: picture.value.id,
-      spaceId: picture.value.spaceId
-    }
+      spaceId: picture.value.spaceId,
+    },
   })
 }
 
@@ -156,22 +162,16 @@ const doDownload = () => {
   downloadImage(picture.value.url)
 }
 
-
-
 onMounted(() => {
   fetchPictureDetail()
 })
-
-
-
-
 </script>
 
 <style scoped>
-
-#homePage{
+#homePage {
   margin-bottom: 16px;
 }
+
 #homePage .search-bar {
   max-width: 480px;
   margin: 0 auto 16px;
@@ -180,5 +180,4 @@ onMounted(() => {
 #homePage .tag-bar {
   margin-bottom: 16px;
 }
-
 </style>

@@ -17,15 +17,22 @@
         <UrlPictureUpload :picture="picture" :spaceId="spaceId" :onSuccess="onSuccess" />
       </a-tab-pane>
     </a-tabs>
-
     <!-- 图片编辑 -->
     <div v-if="picture" class="edit-bar">
       <a-space size="middle">
+        <a-button :icon="h(EditOutlined)" @click="doEditPicture">编辑图片</a-button>
         <a-button type="primary" :icon="h(FullscreenOutlined)" @click="doImagePainting">
           AI 扩图
         </a-button>
       </a-space>
-
+      <ImageCropper
+        ref="imageCropperRef"
+        :imageUrl="picture?.url"
+        :picture="picture"
+        :spaceId="spaceId"
+        :space="space"
+        :onSuccess="onCropSuccess"
+      />
       <ImageOutPaintting
         ref="imageOutPaintingRef"
         :picture="picture"
@@ -87,6 +94,7 @@ import {
 } from '@/api/pictureController.ts'
 import { useRoute, useRouter } from 'vue-router'
 import UrlPictureUpload from '@/components/UrlPictureUpload.vue'
+import ImageCropper from '@/components/ImageCropper.vue'
 import { EditOutlined, FullscreenOutlined } from '@ant-design/icons-vue'
 import { getSpaceVoByIdUsingGet } from '@/api/spaceController.ts'
 import ImageOutPaintting from "@/components/ImageOutPaintting.vue";
@@ -191,6 +199,19 @@ const getOldPicture = async () => {
 onMounted(() => {
   getOldPicture()
 })
+
+// ----- 图片编辑器引用 ------
+const imageCropperRef = ref()
+
+// 编辑图片
+const doEditPicture = async () => {
+  imageCropperRef.value?.openModal()
+}
+
+// 编辑成功事件
+const onCropSuccess = (newPicture: API.PictureVO) => {
+  picture.value = newPicture
+}
 
 // ----- AI 扩图引用 -----
 const imageOutPaintingRef = ref()

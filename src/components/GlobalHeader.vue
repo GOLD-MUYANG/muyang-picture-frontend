@@ -5,7 +5,7 @@
         <RouterLink to="/">
           <div class="title-bar">
             <img class="logo" src="../assets/logo.png" alt="logo" />
-            <div class="title">牧羊云图库</div>
+            <div class="title">牧羊图片助手</div>
           </div>
         </RouterLink>
       </a-col>
@@ -156,7 +156,7 @@ router.afterEach((to, from, next) => {
 
 .title {
   color: black;
-  font-size: 18px;
+  font-size: 17px;
   margin-left: 16px;
 }
 

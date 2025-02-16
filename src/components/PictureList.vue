@@ -32,11 +32,11 @@
             </a-card-meta>
             <template v-if="showOp" #actions>
               <a-space @click="(e) => doEdit(picture, e)">
-                <edit-outlined />
+                <edit-outlined v-if="canEdit" @click="(e) => doEdit(picture, e)" />
                 编辑
               </a-space>
               <a-space @click="(e) => doDelete(picture, e)">
-                <delete-outlined />
+                <delete-outlined v-if="canDelete" @click="(e) => doDelete(picture, e)" />
                 删除
               </a-space>
             </template>
@@ -55,14 +55,18 @@ import { message } from 'ant-design-vue'
 interface Props {
   dataList?: API.PictureVO[]
   loading?: boolean
-  showOp?: boolean //只有私有空間才显示操作
+  showOp?: boolean
   onReload?: () => void
+  canEdit?: boolean
+  canDelete?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
   dataList: () => [],
   loading: false,
   showOp: false,
+  canEdit: false,
+  canDelete: false,
 })
 
 // 跳转至图片详情

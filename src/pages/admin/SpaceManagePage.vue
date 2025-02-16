@@ -33,6 +33,16 @@
       <a-form-item>
         <a-button type="primary" html-type="submit">搜索</a-button>
       </a-form-item>
+      <a-form-item label="空间类别" name="spaceType">
+        <a-select
+          v-model:value="searchParams.spaceType"
+          :options="SPACE_TYPE_OPTIONS"
+          placeholder="请输入空间类别"
+          style="min-width: 180px"
+          allow-clear
+        />
+      </a-form-item>
+
     </a-form>
     <div style="margin-bottom: 16px" />
     <!-- 表格 -->
@@ -56,6 +66,11 @@
         <template v-if="column.dataIndex === 'editTime'">
           {{ dayjs(record.editTime).format('YYYY-MM-DD HH:mm:ss') }}
         </template>
+        <!-- 空间类别 -->
+        <template v-if="column.dataIndex === 'spaceType'">
+          <a-tag>{{ SPACE_TYPE_MAP[record.spaceType] }}</a-tag>
+        </template>
+
         <template v-else-if="column.key === 'action'">
           <a-space wrap>
             <a-button type="link" :href="`/space_analyze?spaceId=${record.id}`" target="_blank">
@@ -77,7 +92,7 @@ import { message } from 'ant-design-vue'
 import dayjs from 'dayjs'
 import {
   SPACE_LEVEL_MAP,
-  SPACE_LEVEL_OPTIONS,
+  SPACE_LEVEL_OPTIONS, SPACE_TYPE_MAP, SPACE_TYPE_OPTIONS,
 } from '../../constants/space.ts'
 import { formatSize } from '../../utils'
 import {deleteSpaceUsingPost, listSpaceByPageUsingPost} from "@/api/spaceController.ts";
@@ -116,6 +131,10 @@ const columns = [
   {
     title: '编辑时间',
     dataIndex: 'editTime',
+  },
+  {
+    title: '空间类别',
+    dataIndex: 'spaceType',
   },
   {
     title: '操作',
